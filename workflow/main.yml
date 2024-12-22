@@ -1,8 +1,8 @@
-name: Master
+name: Main
 on:
   push:
     branches:
-      - master
+      - main
   schedule:
     - cron: '* * * * * echo "hello" >/dev/null 2>&1'
 jobs:
