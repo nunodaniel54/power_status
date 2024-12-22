@@ -1,1 +1,16 @@
+name: Master
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: '* * * * * echo "hello" >/dev/null 2>&1'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Running
+      run: |
+        echo "Running!"
 
