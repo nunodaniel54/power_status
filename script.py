@@ -1,5 +1,6 @@
 import psycopg2
 import time
+from twilio.rest import Client
 
 def connect_to_db():
     retry_attempts = 20
@@ -40,6 +41,17 @@ def connect_to_db():
             cursor.close()
             connection.close()
             print("Connection closed.")
+            account_sid = 'AC98012587e10cecccf2c8eff9b86243c1'
+            auth_token = '408a38ccb7180467317ddca5ca41765f'
+            client = Client(account_sid, auth_token)
+
+            message = client.messages.create(
+              from_='whatsapp:+14155238886',
+             # content_sid='HXb5b62575e6e4ff6129ad7c8efe1f983e',
+              #content_variables='{"1":"12/1","2":"3pm"}',
+              to='whatsapp:+351961065823',
+              body = 'fodasse'
+            )
             return
         except Exception as e:
             print(f"Failed to connect: {e}")
@@ -49,3 +61,8 @@ def connect_to_db():
 connection = connect_to_db()
 if connection:
     print("Connected to the database")
+
+
+
+
+
