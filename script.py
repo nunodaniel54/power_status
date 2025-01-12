@@ -16,11 +16,11 @@ def connect_to_db():
             )
             cursor = connection.cursor()
             
-            cursor.execute("select last_time_alive, notification from wake_up ORDER BY id DESC LIMIT 1")
-            
+            cursor.execute("select last_time_alive, notification from wake_up ORDER BY id DESC")
+            #print(cursor)
             result = cursor.fetchone()
           #  print(datetime.datetime.now())
-           # print(result[0])
+            #print(result)
             
             if(time_calculate(result[0],datetime.datetime.now()) > 12 and result[1]==0):
                 send_msg("Atenção!! Falha de Eletricidade.")
@@ -30,8 +30,9 @@ def connect_to_db():
             elif(time_calculate(result[0],datetime.datetime.now()) > 12 and result[1]==1):    
                 print("Continua mal")
             else:
-                if(result[1]==1):
+                if(any_miss( cursor)):
                     send_msg("Eletricidade de volta!")
+                    print("eletricidade de volta")
                 print("Correu tudo bem")
                 cursor.execute("delete from wake_up")
                 connection.commit()
@@ -69,6 +70,13 @@ def send_msg(msg):
     to='whatsapp:+351961065823',
     body = msg
     )
-    
+
+def any_miss(cursor):
+    #print(cursor)
+    for row in cursor:
+        if(row[1] == 1):
+            return 1
+        #print(row)
+    return 0
     
 connect_to_db()
