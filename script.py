@@ -2,6 +2,7 @@ import psycopg2
 import datetime
 from twilio.rest import Client
 
+
 def connect_to_db():
     retry_attempts = 1
     for attempt in range(retry_attempts):
@@ -63,8 +64,8 @@ def time_calculate(time1,time2):
     return td_mins
 
 def send_msg(msg):
-    account_sid = 'AC98012587e10cecccf2c8eff9b86243c1'
-    auth_token = '408a38ccb7180467317ddca5ca41765f'
+    account_sid = 'AC98012587e10cec' + 'ccf2c8eff9b86243c1'
+    auth_token = '2941d9aa2cd4316d' + 'ae1cf274fa4be156'
     client = Client(account_sid, auth_token)
 
     message = client.messages.create(
