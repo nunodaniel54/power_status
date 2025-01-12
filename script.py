@@ -24,6 +24,7 @@ def connect_to_db():
             print(result)
             
             if(result is None):
+                send_msg("Atenção!! Falha de Eletricidade.")
                 cursor.execute("insert into wake_up(notification) values(1)")
                 connection.commit()
 
