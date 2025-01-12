@@ -28,12 +28,12 @@ def connect_to_db():
                 cursor.execute("insert into wake_up(notification) values(1)")
                 connection.commit()
 
-            elif(time_calculate(result[0],datetime.datetime.now()) > 12 and result[1]==0):
+            elif(time_calculate(result[0],datetime.datetime.now()) > 5 and result[1]==0):
                 send_msg("Atenção!! Falha de Eletricidade.")
                 print("Correu mal")
                 cursor.execute("update wake_up set notification = 1")
                 connection.commit()
-            elif(time_calculate(result[0],datetime.datetime.now()) > 12 and result[1]==1):    
+            elif(time_calculate(result[0],datetime.datetime.now()) > 5 and result[1]==1):    
                 print("Continua mal")
             else:
                 if(any_miss( cursor)):
