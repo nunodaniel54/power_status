@@ -1,6 +1,8 @@
 import psycopg2
 import datetime
 from twilio.rest import Client
+import requests
+from urllib.parse import quote
 
 
 def connect_to_db():
@@ -24,12 +26,12 @@ def connect_to_db():
             print(result)
             
             if(result is None):
-                send_msg("Atenção!! Falha de Eletricidade.")
+                whatsapp("Atenção!! Falha de Eletricidade.")
                 cursor.execute("insert into wake_up(notification) values(1)")
                 connection.commit()
 
             elif(time_calculate(result[0],datetime.datetime.now()) > 5 and result[1]==0):
-                send_msg("Atenção!! Falha de Eletricidade.")
+                whatsapp("Atenção!! Falha de Eletricidade.")
                 print("Correu mal")
                 cursor.execute("update wake_up set notification = 1")
                 connection.commit()
@@ -37,7 +39,7 @@ def connect_to_db():
                 print("Continua mal")
             else:
                 if(any_miss( cursor)):
-                    send_msg("Eletricidade de volta!")
+                    whatsapp("Eletricidade de volta!")
                     print("eletricidade de volta")
                 print("Correu tudo bem")
                 cursor.execute("delete from wake_up")
@@ -64,18 +66,6 @@ def time_calculate(time1,time2):
 
     return td_mins
 
-def send_msg(msg):
-    account_sid = 'AC98012587e10cec' + 'ccf2c8eff9b86243c1'
-    auth_token = '2941d9aa2cd4316d' + 'ae1cf274fa4be156'
-    client = Client(account_sid, auth_token)
-
-    message = client.messages.create(
-    from_='whatsapp:+14155238886',
-    # content_sid='HXb5b62575e6e4ff6129ad7c8efe1f983e',
-    #content_variables='{"1":"12/1","2":"3pm"}',
-    to='whatsapp:+351961065823',
-    body = msg
-    )
 
 def any_miss(cursor):
     #print(cursor)
@@ -85,4 +75,13 @@ def any_miss(cursor):
         #print(row)
     return 0
     
+    
+def whatsapp(message: str) -> str:
+    print("""Send a Whatsapp message.""")
+
+    text = quote(message)
+    url = f'https://api.callmebot.com/whatsapp.php?phone=351961065823&text={text}&apikey=9943501'
+    print(url)
+    return requests.post(url).text
+
 connect_to_db()
