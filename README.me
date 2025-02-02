@@ -1,1 +1,1 @@
-Demo for the whatsapp wake up call 
+This project consists on an esp32 communicating with a postgreesql database (supabase), sending heartbeats every 2 minutes. There´s a Python script running as "Github action" schedule to run every 5 minuts, but is normally does every 15-20m. If the last heartbeat was over 10m ago, then send a warning message for the user by Whatsapp. When power up again, the user also receives a warning.
