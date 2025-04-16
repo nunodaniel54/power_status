@@ -19,7 +19,7 @@ def connect_to_db():
             )
             cursor = connection.cursor()
             
-            cursor.execute("select last_time_alive, notification from wake_up ORDER BY id DESC")
+            cursor.execute("select last_time_alive, notification from wake_up_v2 ORDER BY id DESC")
             #print(cursor)
             result = cursor.fetchone()
           #  print(datetime.datetime.now())
@@ -27,22 +27,22 @@ def connect_to_db():
             
             if(result is None):
                 whatsapp("Atenção!! Falha de Eletricidade.")
-                cursor.execute("insert into wake_up(notification) values(1)")
+                cursor.execute("insert into wake_up_v2(notification) values(1)")
                 connection.commit()
 
             elif(time_calculate(result[0],datetime.datetime.now()) > 8 and result[1]==0):
                 whatsapp("Atenção!! Falha de Eletricidade.")
                 print("Correu mal")
-                cursor.execute("update wake_up set notification = 1")
+                cursor.execute("update wake_up_v2 set notification = 1")
                 connection.commit()
             elif(time_calculate(result[0],datetime.datetime.now()) > 8 and result[1]==1):    
                 print("Continua mal")
             else:
                 if(any_miss( cursor)):
-                    whatsapp("Eletricidade de volta!")
+                    # whatsapp("Eletricidade de volta!")
                     print("eletricidade de volta")
                 print("Correu tudo bem")
-                cursor.execute("delete from wake_up")
+                cursor.execute("delete from wake_up_v2")
                 connection.commit()
                 
                 
