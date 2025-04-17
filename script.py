@@ -82,7 +82,7 @@ def whatsapp(message: str) -> str:
     text = quote(message)
     url = f'https://api.callmebot.com/whatsapp.php?phone=351917347946&text={text}&apikey=3163670'
     requests.post(url).text
-    url = f'https://api.callmebot.com/whatsapp.php?phone=351961065823&text={text}&apikey=9943501'
+    #url = f'https://api.callmebot.com/whatsapp.php?phone=351961065823&text={text}&apikey=9943501'
     print(url)
     return requests.post(url).text
 
