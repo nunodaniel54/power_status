@@ -3,9 +3,6 @@ import datetime
 from twilio.rest import Client
 import requests
 from urllib.parse import quote
-import pytz
-
-tz = pytz.timezone('Africa/WAT')
 
 def connect_to_db():
     retry_attempts = 1
@@ -32,12 +29,12 @@ def connect_to_db():
                 cursor.execute("insert into wake_up_v2(notification) values(1)")
                 connection.commit()
 
-            elif(time_calculate(result[0],datetime.datetime.now(tz)) > 8 and result[1]==0):
+            elif(time_calculate(result[0],datetime.datetime.now()) > 8 and result[1]==0):
                 whatsapp("Atenção!! Falha de Eletricidade.")
                 print("Correu mal")
                 cursor.execute("update wake_up_v2 set notification = 1")
                 connection.commit()
-            elif(time_calculate(result[0],datetime.datetime.now(tz)) > 8 and result[1]==1):    
+            elif(time_calculate(result[0],datetime.datetime.now()) > 8 and result[1]==1):    
                 print("Continua mal")
             else:
                 if(any_miss( cursor)):
